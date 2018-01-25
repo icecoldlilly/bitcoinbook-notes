@@ -8,3 +8,6 @@
 4.  `brew install libbitcoin`
 5.  After installation compile code as following: `g++ -std=c++11 -o addr addr.cpp $(pkg-config --cflags --libs libbitcoin)`
 
+## Python
+conda create env -n "name" python=3.6
+pip install bitcoin
