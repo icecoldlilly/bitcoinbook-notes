@@ -29,11 +29,11 @@ generator = generator_secp256k1
 # 2) passing to anon lambda function, 
 # 3) anon function encodes to hex,
 def random_secret():
-    convert_to_int = lambda array: int("".join(array).encode("hex"), 16)
+    convert_to_int = lambda array: int(''.join(format(x, '02x') for x in array), 16)
 
     # Collect 256 bits of random data from the OS's cryptographically secure
     # random generator
-    byte_array = os.urandom(32)
+    byte_array = bytearray(os.urandom(32))
 
     return convert_to_int(byte_array)
 
@@ -44,7 +44,7 @@ def random_secret():
 # 4) decode hex of the result
 def get_point_pubkey(point):
     key = ('03' if point.y() & 1 else '02') + '%064x' % point.x()
-    return key.decode('hex')
+    return key
 
 # A method that constructs uncompressed pubkey of given point by: 
 # 1) accepting hex point as input
@@ -57,7 +57,7 @@ def get_point_pubkey_uncompressed(point):
     key = ('04' +
            '%064x' % point.x() +
            '%064x' % point.y())
-    return key.decode('hex')
+    return key
 
 
 # Generate a new private key.
@@ -68,7 +68,9 @@ print("Secret: ", secret)
 point = secret * generator
 print("EC point:", point)
 
-print("BTC public key:", get_point_pubkey(point).encode("hex"))
+print("BTC public key:", get_point_pubkey(point))
+
+print("BTC uncompressed public key:", get_point_pubkey_uncompressed(point))
 
 # Given the point (x, y) we can create the object using:
 point1 = ecdsa.ellipticcurve.Point(curve, point.x(), point.y(), ec_order)
