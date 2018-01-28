@@ -25,6 +25,6 @@ a2x -f epub --no-xmllint ./book.asciidoc
 
 ### Code
 
-You can check out the code for this repo at [\code](\code\)
+You can check out the code for this repo at [/code](/code/)
 
-Here are some more [notes](\code\README.md) in regards to the code snippets
+Here are some more [notes](/code/README.md) in regards to the code snippets
