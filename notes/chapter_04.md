@@ -1,4 +1,5 @@
 # Chapter 04
+## TODO: Edit ✍🏽
 - The command getrawtransaction returns a serialized transaction in hexadecimal notation.
 
 - assing the hex data as a parameter. You can copy the hex returned by getrawtransaction and paste it as a parameter to decoderawtransaction:
