@@ -1,0 +1,711 @@
+# Chapter 04
+- The command getrawtransaction returns a serialized transaction in hexadecimal notation.
+
+- assing the hex data as a parameter. You can copy the hex returned by getrawtransaction and paste it as a parameter to decoderawtransaction:
+
+- Ownership of bitcoin is established through digital keys, bitcoin addresses, and digital signatures.
+
+- Keys enable many of the interesting properties of bitcoin, including decentralized trust and control, ownership attestation, and the cryptographic-proof security model.
+
+- valid digital signature to be included in the blockchain, which can only be generated with a secret key
+
+- therefore, anyone with a copy of that key has control of the bitcoin.
+
+- The digital signature used to spend funds is also referred to as a witness
+
+- The witness data in a bitcoin transaction testifies to the true ownership of the funds being spent.
+
+- Think of the public key as similar to a bank account number
+
+- private key as similar to the secret PIN, or signature on a check
+
+- recipient’s public key is represented by its digital fingerprint, called a bitcoin address
+
+- scripts
+
+- First, we will introduce cryptography and explain the mathematics used in bitcoin.
+
+- look at how keys are generated, stored, and managed
+
+- vanity, multisignature, and script addresses and paper wallets.
+
+- prime number exponentiation
+
+- elliptic curve multiplication, have been discovered
+
+- mathematical functions are practically irreversible
+
+- Bitcoin uses elliptic curve multiplication as the basis for its cryptography.
+    * Trapdoor function
+
+- In bitcoin, we use public key cryptography to create a key pair that controls access to bitcoin.
+
+- The public key is used to receive fund
+
+- private key is used to sign transactions to spend the funds.
+
+- There is a mathematical relationship between the public and the private key that allows the private key to be used to generate signatures on messages.
+
+- When spending bitcoin, the current bitcoin owner presents her public key and a signature
+
+- public key and signature, everyone in the bitcoin network can verify and accept the transaction as valid,
+
+- the private and public keys are stored together as a key pair for convenience
+
+- the public key can be calculated from the private key, so storing only the private key is also possible.
+
+- A bitcoin wallet contains a collection of key pairs
+
+- The private key (k) is a number, usually picked at random.
+
+- private key and a public key
+
+- elliptic curve multiplication
+
+- generate a public key (K)
+
+- generate a bitcoin address (A)
+
+- In this section, we will start with generating the private key, look at the elliptic curve math that is used to turn that into a public key, and finally, generate a bitcoin address from the public key.
+
+- the ability to generate digital signatures
+
+- A private key can be applied to the digital fingerprint of a transaction to produce a numerical signature
+
+- This signature can only be produced by someone with knowledge of the private key.
+
+- anyone with access to the public key and the transaction fingerprint can use them to verify the signature.
+
+- This useful property of asymmetric cryptography makes it possible for anyone to verify every signature on every transaction
+
+- ensuring that only the owners of private keys can produce valid signatures.
+    * Used
+    * Used as a mechanism to verify transaction
+
+- The private key is used to create signatures that are required to spend bitcoin by proving ownership of funds used in a transaction.
+
+- revealing it to third parties is equivalent to giving them control over the bitcoin secured by that key
+
+- The public key can then be generated from the private key.
+
+- toss a coin 256 times and you have the binary digits
+
+- Creating a bitcoin key is essentially the same as "Pick a number between 1 and 2256.
+
+- Bitcoin software uses the underlying operating system’s random number generators to produce 256 bits of entropy
+
+- initialized by a human source of randomness, which is why you may be asked to wiggle your mouse
+
+- the private key can be any number between 1 and n - 1, where n is a constant
+
+- defined as the order of the elliptic curve used in bitcoin
+
+- To create such a key, we randomly pick a 256-bit number and check that it is less than n - 1
+
+- cryptographically secure source of randomness, into the SHA256 hash algorithm
+
+- The size of bitcoin’s private key space, (2256) is an unfathomably large number.
+
+- use the getnewaddress command. For security reasons it displays the public key only,
+
+- bitcoind to expose the private key, use the dumpprivkey command. The dumpprivkey command shows the private key in a Base58 checksum-encoded format called the Wallet Import Format (WIF)
+
+- dumpprivkey command does not generate a private key from a public key, as this is impossible.
+
+- reveals the private key that is already known to the wallet and which was generated by the getnewaddress command.
+    * Trapdoor function cannot be reversed to retrieve private key.
+    * If you want to know the private key, then save it
+
+- G is a constant point called the generator poin
+
+- k is the private key
+
+- K = k * G,
+
+- K is the resulting public key.
+
+- "finding the discrete logarithm"—calculating k if you know K
+    * Generator point is a starting point, think of it as point A on the graph.
+    * The private key, k, is the secret we cannot reverse. It is the number of time we “dot” the starting point G to generate the, K, public key
+
+- it is easy to do in one direction (multiplication)
+
+- The owner of the private key can easily create the public key and then share it with the world knowing that no one can reverse the function and calculate the private key from the public key
+
+- This mathematical trick becomes the basis for unforgeable and secure digital signatures that prove ownership of bitcoin funds.
+
+- impossible to do in the reverse direction
+
+- based on the discrete logarithm problem as expressed by addition and multiplication on the points of an elliptic curve.
+
+- elliptic curve and set of mathematical constants, as defined in a standard called secp256k1
+
+- p = 2256 – 232 – 29 – 28 – 27 – 26 – 24 – 1
+    * This is what we define as mod p
+
+- it looks like a pattern of dots scattered in two dimensions
+
+- he math is identical to that of an elliptic curve over real numbers
+
+- The secp256k1 bitcoin elliptic curve can be thought of as a much more complex pattern of dots on a unfathomably large grid
+
+- reflect
+    * Choose the point that mirrors (x,y) around the x axis, i.e the point with the same x, and the OPPOSITE y => (x, -y) Now we have P3’ and P3
+
+- tangent on the curve at this point P1
+
+- calculus to determine the slope of the tangent line
+    * Case 1: P1=P2:  We get the tangent line to the curve, I.e the point simply represents the slope of the curve, and if the curve line extended to either direction it must intersect the curve in one point ONLY
+
+- (i.e., if P1 and P2 have the same x values but different y values), the tangent line will be exactly vertical
+    * Case 2: x(P1) = x(P2) => We only intersect the curve at these points => P3 = “point at infinity” because somewhere in infinity we should have another point, but we have no point at all, which makes P3 corresponds to zero, S.T P3 = (role of zero)
+
+- This shows how the point at infinity plays the role of zero.
+    * Case 4: If P1=“0” & P2=(x,y) => P1+P2=P2=(x,y) Based on the previous case, however, in these cases we assume that P1=(role of zero) and P2=(role of zero) correspondly
+
+- associative
+    * Case 5: (4) property
+
+- kP = P + P + P + … + P
+    * we use k as a randomly generated number  and point P as generator point in bitcoin in order to calculate K  this is proved to always work since we proved the algebra will always work.  We started by showing that addition will work, ((1) Show how addition is carried, and what point we end at, If P1+P2=P’3 => P3=(mirror(P’3))  (2)Identity addition P1+P1=2P1 = P2, addition of the same point twice, will produce a new point on the same slope, Note: Add P1+P2 for P’3 and then find P3 (3) addition of two opposite points  (additive inverse) produces, line with infinite slope, i.e new point is at infinity, which equals to role of zero, (4) showed addition between zero and another number resulting the same number,(5) and showed associate addition working)
+
+- can be shared with anyone and does not reveal the user’s private key
+
+- private key k multiplied with G will always result in the same public key K
+    * Because only a set of points together creates a new point, and its hard to figure out which point we added and how did we add it, no body can figure out k ( the number we added the points) from the resulting point, based on the way we defined the arithematic
+    * This function works more like K=k dot G, where the: (1) G+G=G2 for the first point and (2) for any other point (k-1) times: G+G2=P’ => mirror(G+G2)=mirror(P’)=P
+
+- kG of the generator point
+
+- drawing a tangent line on the point
+
+- finding where it intersects the curve again
+
+- reflecting that point on the x-axis.
+    * (1) Add points
+    * (2) Find the point where we intersect again, this is our P’3
+    * (3) Find the point that mirrors P’3 on the x-axis. That is our P3. Carry on addition from this point
+
+- A bitcoin address can represent the owner of a private/public key pair, or it can represent something else, such as a payment script
+
+- bitcoin address is derived from the public key through the use of one-way cryptographic hashing
+
+- one-way function that produces a fingerprint or "hash" of an arbitrary-sized input.
+
+- bitcoin addresses
+
+- script addresses
+
+- Proof-of-Work algorithm
+    * Cryptographic hashing is used to generate wallet address (public key) from private key through ECM
+    * Hash the script => apply ECM => generate public address
+    * Generate challenge   = (cryptograph hash function) =>seed it with difficulty and previous hash
+
+- compute the SHA256 hash
+
+- compute the RIPEMD160 hash of the result
+
+- "Base58Check"
+
+- 58 characters
+
+- checksum to help human readability, avoid ambiguity, and protect against errors in address transcription and entry
+
+- In the next section we will examine the mechanics of Base58Check
+
+- higher than 10
+
+- it is a set of lowercase and capital letters and numbers without the four (0, O, l, I) just mentioned
+
+- The checksum is an additional four bytes added to the end of the data that is being encoded.
+
+- When presented with Base58Check code, the decoding software will calculate the checksum of the data and compare it to the checksum included in the code
+
+- checksum is derived from the hash of the encoded data and can therefore be used to detect and prevent transcription and typing errors
+
+- If the two do not match, an error has been introduced and the Base58Check data is invalid
+
+- To add extra security against typos or transcription errors, Base58Check is a Base58 encoding format,
+
+- checksum = SHA256(SHA256(prefix+data))
+
+- (hash-of-a-hash), we take only the first four bytes.
+
+- four bytes serve as the error-checking code, or checksum
+
+- concatenated (appended) to the end.
+
+- a prefix, the data, and a checksum.
+
+- used to create easily distinguishable formats
+
+- version prefix
+
+- contain specific characters at the beginning of the Base58Check-encoded payload
+
+- To encode into Base58Check as a "compressed" private key
+
+- ppend the suffix 01 to the hex key
+    * Adding the “01” suffix will compress the hex private key, and create only “compressed” Base58Check-format private keys
+
+- Compressed public keys were introduced to bitcoin to reduce the size of transactions and conserve disk space on nodes that store the bitcoin blockchain database.
+
+- Each public key requires 520 bits (prefix + x + y), which when multiplied by several hundred transactions per block, or tens of thousands of transactions per day, adds a significant amount of data to the blockchain.
+
+- public key is a point (x,y) on an elliptic curve
+
+- a point on the curve represents a solution
+
+- we can calculate the y coordinate
+
+- y2 mod p = (x3 + 7) mod
+
+- y coordinate
+
+- space required to store it by 256 bits
+
+- An almost 50% reduction in size in every transaction adds up to a lot of data saved over time!
+
+- either a 02 or a 03 prefix
+
+- compressed public keys
+
+- why there are two possible prefixes:
+
+- the equation is y2
+
+- solution for y is a square root
+
+- have a positive or negative value
+
+- above or below the x-axis.
+
+- resulting y coordinate
+
+- curve is symmetric
+
+- reflected like a mirror by the x-axis
+
+- we can omit the y coordinate
+
+- have to store the sign of y
+
+- because each of those options represents a different point and a different public key
+
+- remember if it was above or below
+
+- finite field of prime order p
+
+- calculating the el
+
+- y coordinate is either even or odd
+
+- corresponds to the positive/negative sign
+
+- we store a compressed public key with the prefix 02 if the y is even
+
+- 03 if it is odd
+
+- correctly deduce the y coordinate from the x coordinate and uncompress the public key to the full coordinates of the point.
+
+- This compressed public key corresponds to the same private key,
+
+- More importantly, if we convert this compressed public key to a bitcoin address using the double-hash function
+
+- produce a different bitcoin address
+
+- single private key
+
+- produce a public key
+
+- two different formats
+
+- compressed and uncompressed
+
+- produce two different bitcoin addresses
+
+- private key is identical
+
+- Compressed public keys
+
+- default across bitcoin clients
+
+- have to account for transactions from older clients that do not support compressed public keys
+
+- importing private keys from another bitcoin wallet application
+
+- especially important when a wallet
+
+- new wallet needs to scan the blockchain to find transactions corresponding to these imported keys
+
+- Both are valid bitcoin addresses, and can be signed for by the private key, but they are different addresses!
+
+- Which bitcoin addresses should the bitcoin wallet scan for?
+
+- To resolve this issue
+
+- private keys are exported
+
+- WIF that is used
+
+- implemented differently in newer bitcoin wallets
+
+- private keys
+
+- used to produce compressed public keys
+
+- indicate that
+
+- therefore compressed bitcoin addresses.
+
+- allows
+
+- distinguish between private keys
+
+- older or newer wallet
+
+- search the blockchain for transactions
+
+- or the compressed, public keys, respectively
+
+- bitcoin addresses corresponding to the uncompressed
+
+- WIF-compressed it is actually one byte longer than an "uncompressed"
+
+- added one-byte suffix
+
+- signifies that the private key is from a newer wallet
+
+- only
+
+- used to produce compressed public keys.
+
+- Private keys are not
+
+- compressed
+
+- cannot be compressed
+
+- really means "private key
+
+- only compressed public keys should be derived
+
+- compressed private key
+
+- uncompressed private key
+
+- private key
+
+- uncompressed public keys should be derived.
+
+- only
+
+- WIF-compressed
+
+- not refer
+
+- private key itself as "compressed"
+
+- Base58 encoding version prefix
+
+- (0x80)
+
+- WIF
+
+- WIF-compressed
+
+- addition of one byte
+
+- causes
+
+- first character
+
+- Base58
+
+- 5 to either a K or L
+
+- Base58
+
+- decimal encoding
+
+- difference between the number 100 and the number 99
+
+- While 100 is one digit longer than 99
+
+- it also has a prefix of 1
+
+- instead of a prefix of 9
+
+- In Base58, the prefix 5 changes to a K or L as the length of the number increases by one byte.
+
+- these formats are not used interchangeably
+
+- compressed public key
+
+- newer wallet
+
+- implements
+
+- private keys
+
+- exported as WIF-compressed
+
+- with a K or L prefix
+
+- older implementation
+
+- does not use compressed public key
+
+- only ever be exported as WIF
+
+- private keys
+
+- with a 5 prefix
+
+- goal here is to signal
+
+- wallet importing
+
+- private keys
+
+- must search the blockchain for compressed or uncompressed public keys and addresses.
+
+- bitcoin wallet
+
+- implement compressed public keys
+
+- use those in all transactions
+
+- private keys
+
+- used to derive the public key points on the curve
+
+- will be compressed
+
+- compressed public keys
+
+- produce bitcoin addresses
+
+- used in transactions
+
+- exporting private keys
+
+- that implements compressed public keys
+
+- WIF is modified, with the addition of a one-byte suffix 01 to the private key.
+
+- Base58Check-encoded private key is called a "compressed WIF" and starts with the letter K or L
+
+- instead of starting with "5" as is the case with WIF-encoded (noncompressed) keys from older wallets.
+
+- "Compressed private keys" is a misnomer!
+
+- not compressed;
+
+- WIF-compressed signifies that the keys should only be used to derive compressed public keys
+
+- "WIF-compressed"
+
+- one byte longer
+
+- has the added 01 suffix
+
+- distinguish it from an "uncompressed"
+
+- it conflicts with the equally important security objective of availability
+
+- confidentiality
+
+- A private key stored in a wallet that is encrypted by a password might be secure
+
+- At times, users need to move keys from one wallet to another—to upgrade or replace the wallet software
+
+- what if the backup itself is stolen or lost?
+
+- encrypting private keys
+
+- security goals led to the introduction of a portable and convenient standard
+
+- standardized by BIP-38
+
+- common standard for encrypting private keys with a passphrase and encoding them with Base58Check
+
+- The standard for encryption uses the Advanced Encryption Standard (AES),
+
+- BIP-38 encryption scheme takes as input a bitcoin private key, usually encoded in the WIF
+
+- Base58Check string with the prefix of "5."
+
+- the BIP-38 encryption scheme takes a passphrase—a long password
+
+- result of the BIP-38 encryption scheme is a Base58Check-encoded encrypted private key
+
+- prefix 6P
+
+- key that starts with 6P, it is encrypted and requires a passphrase in order to convert (decrypt) it back into a WIF-formatted private key (prefix 5)
+
+- recognize BIP-38-encrypted private keys and will prompt the user for a passphrase to decrypt and import the key
+
+- most common use case for BIP-38 encrypted keys is for paper wallets
+
+- used to back up private keys on a piece of paper
+
+- strong passphrase, a paper wallet with BIP-38 encrypted private keys is incredibly secure and a great way to create offline bitcoin storage
+
+- traditional bitcoin addresses begin with the number “1” and are derived from the public key
+
+- derived from the private key
+
+- only be spent by presenting the corresponding private key signature and public key hash
+
+- begin with the number “3” are pay-to-script hash
+
+- erroneously called multisignature or multisig addresses
+
+- designate the beneficiary of a bitcoin transaction as the hash of a script
+
+- opportunity to add functionality to the address itself.
+
+- funds sent to “3” addresses require something more than the presentation of one public key hash and one private key signature as proof of ownership
+
+- The requirements are designated at the time the address is created, within the script,
+
+- and all inputs to this address will be encumbered with the same requirements.
+
+- A P2SH address is created from a transaction script, which defines who can spend a transaction output
+
+- Encoding a P2SH address involves using the same double-hash function as used during creation of a bitcoin address
+
+- only applied on the script instead of the public key:
+
+- encoded address starting with a 3
+
+- Base58Check with a version prefix of 5
+
+- P2SH address is 3F6i6kwkevjR7AsAd4te2YB2zZyASEm1HM
+
+- derived using the Bitcoin Explorer commands script-encode, sha256, ripemd160, and base58check-encode
+
+- P2SH is not necessarily the same as a multisignature standard transaction
+
+- A P2SH address most often represents a multi-signature script, but it might also represent a script encoding other types of transactions.
+
+- most common implementation of the P2SH function is the multi-signature address script.
+
+- underlying script requires more than one signature to prove ownership and therefore spend funds.
+
+- designed to require M signatures (also known as the “threshold”)
+
+- from a total of N keys
+
+- M-of-N multisig, where M is equal to or less than N
+
+- could use a multisignature address requiring 1-of-2 signatures
+
+- ensuring either of them could sign to spend a transaction output locked to this address
+
+- “joint account” as implemented in traditional banking
+
+- single signature.
+
+- 2-of-3 multisignature address for his business
+
+- can be spent unless at least two
+
+- create transactions that spend funds from P2SH
+
+- Vanity addresses are valid bitcoin addresses that contain human-readable messages
+
+- valid address that contains the letters forming the word "Love" as the first four Base-58 letters
+
+- generating and testing billions of candidate private keys, until a bitcoin address with the desired pattern is found
+
+- the process essentially involves picking a private key at random, deriving the public key, deriving the bitcoin address, and checking to see if it matches the desired vanity pattern
+
+- repeating billions of times until a match is found.
+
+- matching the desired pattern is found,
+
+- private key from
+
+- derived can be used by the owner to spend bitcoin
+
+- same way as any other address
+
+- Vanity addresses are no less or more secure than any other address
+
+- depend on the same Elliptic Curve Cryptography (ECC) and SHA as any other address.
+
+- no more easily find the private key of an address starting with a vanity pattern than you can any other address.
+
+- There are approximately 5829 (approximately 1.4 * 1051) addresses in that range, all starting with "1Kids.
+
+- An average desktop computer PC, without any specialized hardware, can search approximately 100,000 keys per second.
+
+- Patterns with more than seven characters are usually found by specialized hardware, such as custom-built desktops with multiple GPUs.
+
+- bitcoin mining "rigs" that are no longer profitable for bitcoin mining but can be used to find vanity addresses.
+
+- vanity address is to outsource the work to a pool of vanity miners, such as the pool at Vanity Pool.
+
+- Generating a vanity address is a brute-force exercise
+
+- try a random key, check the resulting address to see if it matches the desired pattern, repeat until successful.
+
+- shows an example of a "vanity miner," a program designed to find vanity addresses, written in C++.
+
+- Vanity addresses can be used to enhance and to defeat security measures;
+
+- they are truly a double-edged sword
+
+- a distinctive address makes it harder for adversaries to substitute their own address and fool your customers into paying them instead of you.
+
+- anyone to create an address that resembles any random address,
+
+- a thief might be able to infiltrate your website and replace it with his own address, thereby diverting donations to himself
+
+- one of the risks of using a single fixed address
+
+- users may visually inspect the address before making a payment to ensure it is the same one
+
+- Using a vanity address generator, someone with the intent to steal by substituting a similar-looking address can quickly generate addresses that match the first few characters,
+
+- If Eugenia pays a pool to generate an 8-character vanity address, the attacker would be pushed into the realm of 10 characters,
+
+- infeasible on a personal computer and expensive even with a custom vanity-mining rig
+
+- What is affordable for Eugenia becomes unaffordable for the attacker, especially if the potential reward of fraud is not high enough to cover the cost of the vanity address generation.
+
+- Often the paper wallet also includes the corresponding bitcoin address for convenience
+
+- Paper wallets are a very effective way to create backups or offline bitcoin storage, also known as "cold storage."
+
+- against the loss of key due to a computer mishap such as a hard-drive failure, theft, or accidental deletion.
+
+- if the paper wallet keys are generated offline and never stored on a computer system, they are much more secure against hackers
+
+- can be generated easily using a tool such as the client-side JavaScript generator at bitaddress.org.
+
+- To use it, save the HTML page on your local drive or on an external USB flash drive. Disconnect from the internet and open the file in a browser.
+
+- Put these paper wallets in a fireproof safe and "send" bitcoin to their bitcoin address, to implement a simple yet highly effective "cold storage" solution.
+
+- The disadvantage of a simple paper wallet system is that the printed keys are vulnerable to theft.
+
+- A more sophisticated paper wallet storage system uses BIP-38 encrypted private keys.
+
+- protected by a passphrase that the owner has memorized.
+
+- Without the passphrase, the encrypted keys are useless.
+
+- Yet, they still are superior to a passphrase-protected wallet because the keys have never been online and must be physically retrieved from a safe or other physically secured storage.
+
+- you should withdraw all funds only once, spending everything.
+
+- This is because in the process of unlocking and spending funds some wallets might generate a change address if you spend less than the whole amount.
+
+- By spending the entire balance of a paper wallet only once, you reduce the risk of key compromise
+
+- Additionally, if the computer you use to sign the transaction is compromised, you risk exposing the private key
+
+- If you need only a small amount, send any remaining funds to a new paper wallet in the same transaction
