@@ -22,7 +22,9 @@ git clone https://github.com/bitcoinbook/bitcoinbook
 git checkout 'develop'
 a2x -f epub --no-xmllint ./book.asciidoc
 ```
+### Notes
 
+I have extracted the notes from iBooks using [Klib](<http://klib.me>), feel free to use the same tool.
 ### Code
 
 You can check out the code for this repo at [/code](/code/)
