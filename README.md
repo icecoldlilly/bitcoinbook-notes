@@ -1,3 +1,5 @@
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/
+
 # Bitcoin Book Notes
 This repository contains personal notes and code snippets I have been aggrigating while reading ["The Bitcoin Book"](http://github.com/bitcoinbook/bitcoinbook)
 ### Compiling
