@@ -115,6 +115,9 @@
 
 - If you are implementing a bitcoin wallet, it should be built as a HD wallet, with a seed encoded as mnemonic code for backup, following the BIP-32, BIP-39, BIP-43, and BIP-44
 
+## BIP 39
+### Mnemoic sequences
+
 - Mnemonic code words are word sequences that represent (encode) a random number used as a seed to derive a deterministic wallet.
 
 - That sequence of words is the wallet backup and can be used to recover and re-create all the keys in the same or any compatible wallet application.
@@ -180,7 +183,8 @@
 - If the wallet owner is incapacitated or dead and no one else knows the passphrase, the seed is useless and all the funds stored in the wallet are lost forever.
 
 - considering the possibility of surviving the owner and allowing his or her family to recover the cryptocurrency estate.
-
+- 
+## BIP 32
 ### HD wallets
 **Summary:** HD wallets are created from a single root seed, which is a 128-, 256-, or 512-bit random number.
   1. Every key in the HD wallet is deterministically derived from this root seed,
@@ -208,10 +212,16 @@
   - Knowing a child key does not make it possible to find its siblings, unless you also have the chain code and the parent key
   - The initial chain code seed (at the root of the tree) is made from the seed, while subsequent child chain codes are derived from each parent chain code.
   -  Each parent can create 2^31 children for infinite amount of generations
-  -  Keys cannot be distinguished from nondeterministic keys
+  -  Keys cannot be distinguished from nondeterministic keys  
 - **Uses of a child private key:**
   - To make a public key and a bitcoin address.
   - Sign off transactions and spend anything belonging to this child
 - **Where can it be used?**
   - Wallet websites like coinbase, [copay.io](https://github.com/bitpay/bitcore-wallet-service), etc...
-  - 
+
+#### Extended Keys
+  -  Chain Code (256-bit) + Parent Key (256-bit) = Extended Key
+    -  Extended Public - Uses *parent public key* to create child public keys, which are used to create bitcoin addresses
+    -  Extended Private - Uses *parent private key* to derive more children private keys, which can be used to sign transactions
+    - Sharing extended keys can give access to whole branch (due to havign access to chain code and key simultanously)
+    - Extended keys are encoded using Base58Check to import / export easily between BIP-32 compatible wallets
