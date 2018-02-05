@@ -181,10 +181,37 @@
 
 - considering the possibility of surviving the owner and allowing his or her family to recover the cryptocurrency estate.
 
-- HD wallets are created from a single root seed, which is a 128-, 256-, or 512-bit random number.
+### HD wallets
+**Summary:** HD wallets are created from a single root seed, which is a 128-, 256-, or 512-bit random number.
+  1. Every key in the HD wallet is deterministically derived from this root seed,
+  2. Which makes it possible to re-create the entire HD wallet from that seed in any compatible HD wallet
+  3. We could do so by simply transferring only the mnemonic that the root seed is derived from.
 
-- Every key in the HD wallet is deterministically derived from this root seed,
+**Question:**  How do you create such wallet? (Graphically)
 
-- which makes it possible to re-create the entire HD wallet from that seed in any compatible HD wallet
+- ![Wallet creation work flow](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0509.png)
 
-- simply transferring only the mnemonic that the root seed is derived from.
+**Question:** So how do you derive a private child key of an HD wallet?
+- HD wallets use a child key derivation (CKD) function to derive child keys from parent keys.
+  - The child key derivation functions are based on a one-way hash function that combines:
+    - A parent private or public key (ECDSA uncompressed key)
+    - A seed called a chain code (256 bits)
+    - An index number (32 bits)
+  - These three items (parent key, chain code, and index) are combined and hashed to generate children keys, as follows.
+  - **Algorithm:**
+    - `hash = HMAC-SHA512(parent public key + chain code + index)`
+      - `childChainCode = rightHalf256(hash)`
+      - ` childPrivateKey = leftHalf256(hash)`
+
+
+- **Remember the following:**
+  - Knowing a child key does not make it possible to find its siblings, unless you also have the chain code and the parent key
+  - The initial chain code seed (at the root of the tree) is made from the seed, while subsequent child chain codes are derived from each parent chain code.
+  -  Each parent can create 2^31 children for infinite amount of generations
+  -  Keys cannot be distinguished from nondeterministic keys
+- **Uses of a child private key:**
+  - To make a public key and a bitcoin address.
+  - Sign off transactions and spend anything belonging to this child
+- **Where can it be used?**
+  - Wallet websites like coinbase, [copay.io](https://github.com/bitpay/bitcore-wallet-service), etc...
+  - 
