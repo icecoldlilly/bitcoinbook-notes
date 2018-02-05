@@ -187,41 +187,69 @@
 ## BIP 32
 ### HD wallets
 **Summary:** HD wallets are created from a single root seed, which is a 128-, 256-, or 512-bit random number.
+
   1. Every key in the HD wallet is deterministically derived from this root seed,
   2. Which makes it possible to re-create the entire HD wallet from that seed in any compatible HD wallet
   3. We could do so by simply transferring only the mnemonic that the root seed is derived from.
 
 **Question:**  How do you create such wallet? (Graphically)
 
-- ![Wallet creation work flow](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0509.png)
+- ![General wallet creation workflow](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0509.png)
 
 **Question:** So how do you derive a private child key of an HD wallet?
-- HD wallets use a child key derivation (CKD) function to derive child keys from parent keys.
-  - The child key derivation functions are based on a one-way hash function that combines:
-    - A parent private or public key (ECDSA uncompressed key)
-    - A seed called a chain code (256 bits)
-    - A desired index number (32 bits)
- - ~~ Three items (parent key, chain code, and index of desired child) are combined and hashed to generate children keys, as follows.~~
-  - **Algorithm:**
-    - `hash = HMAC-SHA512(parent public key + chain code + index)`
-      - `childChainCode = rightHalf256(hash)`
-      - `childPrivateKey = leftHalf256(hash)`
 
+- HD wallets use a child key derivation (CKD) function to derive child keys from parent keys.
+    - The child key derivation functions are based on a one-way hash function that combines:
+        - A parent private or public key (ECDSA uncompressed key)
+        - A seed called a chain code (256 bits)
+        - A desired index number (32 bits)
+ - ~~ Three items (parent key, chain code, and index of desired child) are combined and hashed to generate children keys, as follows.~~
+
+#### Public Key Child Derivation
+
+- **Graphic Description**
+
+![Public Key Child Derivation](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0510.png)
+
+- **Algorithm:**
+    - `hash = HMAC-SHA512(parent public key + chain code + index)`
+        - `childChainCode = rightHalf256(hash)`
+        - `childPrivateKey = leftHalf256(hash)`
 
 - **Remember the following:**
-  - Knowing a child key does not make it possible to find its siblings, unless you also have the chain code and the parent key
-  - The initial chain code seed (at the root of the tree) is made from the seed, while subsequent child chain codes are derived from each parent chain code.
-  -  Each parent can create 2^31 children for infinite amount of generations
-  -  Keys cannot be distinguished from nondeterministic keys  
+    - Knowing a child key does not make it possible to find its siblings, unless you also have the chain code and the parent key
+    - The initial chain code seed (at the root of the tree) is made from the seed, while subsequent child chain codes are derived from each parent chain code.
+    -  Each parent can create 2^31 children for infinite amount of generations
+    -  Keys cannot be distinguished from nondeterministic keys
 - **Uses of a child private key:**
-  - To make a public key and a bitcoin address.
-  - Sign off transactions and spend anything belonging to this child
+    - To make a public key and a bitcoin address.
+    - Sign off transactions and spend anything belonging to this child
 - **Where can it be used?**
-  - Wallet websites like coinbase, [copay.io](https://github.com/bitpay/bitcore-wallet-service), etc...
+    - Wallet websites like coinbase, [copay.io](https://github.com/bitpay/bitcore-wallet-service), etc...
 
 #### Extended Keys
-  -  Chain Code (256-bit) + Parent Key (256-bit) = Extended Key
+
+-  **Chain Code (256-bit) + Parent Key (256-bit) = Extended Key**
     -  Extended Public - Uses *parent public key* to create child public keys, which are used to create bitcoin addresses
     -  Extended Private - Uses *parent private key* to derive more children private keys, which can be used to sign transactions
     - Sharing extended keys can give access to whole branch (due to havign access to chain code and key simultanously)
     - Extended keys are encoded using Base58Check to import / export easily between BIP-32 compatible wallets
+        - Recognizable due to length (512/513-bit)
+        - `xprv` / `xpub` prefix to distinguish extended private and public keys.
+    - **Advantages:**
+        - Can be used to create a secure public key-only deployments, where an application has a copy of an extended public key and no private keys.
+            - useful for eCommerce apps
+                - Seperate transactions based on conditions by creating more addresses
+            - useful for cold storage or hardware wallets
+                - Seperate the control layers, payments can be accepted without risking unauthorized spendings
+        - Now if you spending ability, you can deploy extended private keys similarly on a secure server, or an offline wallet and seperate your application to decrease the chances of a breach.
+    - **Disadvantages:**
+        - Since Extended Key contains chain code, if child private key is leaked all the other child private keys could be derived.
+            - Especially dangerous because chain code belongs to parent
+            - Solution: **Hardened Derivation** &rightarrow; derives child chain code from parent private key, instead of parent public key.
+
+#### Hardened Derivation
+
+- **Graphic Description**
+
+![Hardened Derivation](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0511.png)  
