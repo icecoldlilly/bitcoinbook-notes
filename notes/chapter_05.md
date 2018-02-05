@@ -196,12 +196,12 @@
   - The child key derivation functions are based on a one-way hash function that combines:
     - A parent private or public key (ECDSA uncompressed key)
     - A seed called a chain code (256 bits)
-    - An index number (32 bits)
-  - These three items (parent key, chain code, and index) are combined and hashed to generate children keys, as follows.
+    - A desired index number (32 bits)
+ - ~~ Three items (parent key, chain code, and index of desired child) are combined and hashed to generate children keys, as follows.~~
   - **Algorithm:**
     - `hash = HMAC-SHA512(parent public key + chain code + index)`
       - `childChainCode = rightHalf256(hash)`
-      - ` childPrivateKey = leftHalf256(hash)`
+      - `childPrivateKey = leftHalf256(hash)`
 
 
 - **Remember the following:**
