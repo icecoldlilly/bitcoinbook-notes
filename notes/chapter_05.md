@@ -253,3 +253,34 @@
 - **Graphic Description**
 
 ![Hardened Derivation](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0511.png)  
+
+- **Summary:**
+
+    - When the hardneed private derivation function is used, the resulting child private key and chain code are completely different from what would result from the normal derivation function.
+    - Creates a "gap" in the tree by protecting the desired part (until the hardened parent is react, which was created by the hardened function)
+    - hardened derivation exclusively uses index numbers between 2^31 and 2^32 - 1 (0x80000000 to 0xFFFFFFFF) for it's children
+    - i' index means 2^31 + i, which symboalizes a hardened child index.
+
+#### HD wallet key identifier (path)
+- **'path' naming convention**
+    - levels are seperated by `/` character
+    - `m` is master private key, while `M` is public one
+    - First child of master private key is `m/0`
+    - `m/x` is the x-*th* child of m
+    - `m/x/y` is the y-*th* grand child of x-*th* of m
+    - ... and so on...
+
+#### BIP-43 & BIP-44
+- **BIP 43**
+    - **Proposal:** Use the first hardened child index as a special identifier to *signify* the purpose of the tree
+    -  **Method:** Use only level-1 branch of the tree, with the index number identifying the namespace by defining it's purpose (❓)
+    - **Meaning** &rightarrow; `m/i'` has specific purpose and it's identified by index `i'`
+- **BIP 44**
+    - **Proposal:** Five predefined tree levels: `m / purpose' / coin_type' / account' / change / address_index`
+    - Such that:
+        - level-1: purpose is always: `44'`
+        - level-2: coin_type can be: `0' (bitcoin), 1' (bitcoin testnet), 2' (litecoin)`
+        - level-3: account can be: each account is the root of it's own subtree, if there are 3 accounts for our master key, **then we have 0',1',2' under m/44'/0'/**
+        - level-4: change can be: `0 (receiving / signing addresses for transactions) or 1 (change addresses for transactions)`
+            - receiving or signing depends on whether our master is public or private respectively.
+        - level-5: the number of the address based on it's kind in the level above.(level-4)
