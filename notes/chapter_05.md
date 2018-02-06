@@ -270,12 +270,14 @@
     - `m/x/y` is the y-*th* grand child of x-*th* of m
     - ... and so on...
 
-#### BIP-43 & BIP-44
-- **BIP 43**
+## BIP-43 & BIP-44
+
+### BIP 43
     - **Proposal:** Use the first hardened child index as a special identifier to *signify* the purpose of the tree
     -  **Method:** Use only level-1 branch of the tree, with the index number identifying the namespace by defining it's purpose (❓)
     - **Meaning** &rightarrow; `m/i'` has specific purpose and it's identified by index `i'`
-- **BIP 44**
+
+### BIP 44
     - **Proposal:** Five predefined tree levels: `m / purpose' / coin_type' / account' / change / address_index`
     - Such that:
         - level-1: purpose is always: `44'`
