@@ -42,8 +42,55 @@
                 - Locking Script (script for defining spending conditions)
 - **Transaction inputs** - identify which UTXO will be consumed and provide proof of ownership through an unlocking script.
 
-    - To build a transaction:
-        1. the wallet select from UTXO it controls
-        2. the wallet creates one input pointing to each one of the used UTXO
+    - To build a transaction input:
+        1. the wallet creates one input pointing to each one of the selected UTXO by:
+            - transaction hash id AND
+            - output index of UTXO (first one is 0)
+        2. the wallet retrieves the details including value of transaction from reference and blockchain network.
         3. the wallet unlocks the UTXO with an unlocking script
-    - 
+            - digital signature and public key OR some other locking script
+        4. the wallet creates sequence number
+    - Note:
+        - All fields have to be serialized for network transmission and deserialized for display
+            - transaction hash (32 bytes) 
+            - output index (4 bytes)
+            - unlocking script size (1-9 bytes)
+            - unlock script (variable bytes)
+            - sequence number (4 bytes)
+        - **Transaction fees** - compensate bitcoin miners for securing the network
+            - **Question:** How?
+                - Makes it economically infeasible for attackers to flood the network with transactions, when small cost on every transaction is imposed.
+            - **Notes:**
+                - Wallets account for fee automatically, but need to include programatically.
+            - **Question:** How do we calculate transaction fees?
+                - Based on the size of the transaction in kilobytes, NOT (‼️) value of transaction in bitcoin
+                - affect the processing priority &rightarrow; sufficient fees = likely to be included in next block.
+                - ~~Not mandatory, might be processed eventually, but no priority.~~ Not relevant anymore, they get dropped if < 0.0001 BTC is paid
+                - Nowadays, influenced by market forces, based on network capacity and transaction volume.
+                - all info above is irrelevant, **static fees are obselete**
+                - **Use Dynamic fees instead** &rightarrow; third-party fee estimation service w/ built-in fee estimation algorithm. OR. implement your own.
+                    - Will calculate based on capacity and the fees offered by "competing" transactions, or static fee will get your transactions "stuck"
+                    - [Popular choice](http://bitcoinfees.21.co)
+                        - `curl https://bitcoinfees.21.co/api/v1/fees/recommended`
+                    - Total fees = sum(inputs) - sum(outputs) &rightarrow;
+                    - &rightarrow; So, don't forget to add the change; 
+                        - OR else the leftover will be counted as the transaction fee
+    - **Section Summary:**
+        - Example:  If you have many small payments aggrigated in your wallet, that you'd like to pass on to another wallet, your transaction will be bigger than average since it will contain many UTXOs, hence your fee will be higher
+
+## 6.4 Transaction Scripts and Script Language
+- Script Language
+    - Forth-like reverse-polish notation stack-based execution language
+    - &rightarrow; ❓❓❓
+    - Limited in scope and executable on a range of hardware (embedded devices)
+        - Minimal processing
+        - Can't do fancy things like modern prog. langs can do
+        - Design in that matter to make sure it's secure enough
+- Transaction (Locking) scripts
+    - When transaction is validated, the unlocking script in each input is executed alongside the corrseponding locking script to see if it satisfies the spending condition.
+    - **Types:**  (types are defined by different scripts)
+        - Pay-to-Public-Key-Hash script:
+            - Used to pay a user
+        -  
+
+
