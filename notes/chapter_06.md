@@ -100,7 +100,10 @@
     - **Construction:** (Lock + Unlock)
         - relies on two types of scripts to validate transactions
             - Locking
+                - spending condition placed on an output
+                    - It specifies the conditions that must be met to spend the output in the future
             - Unlocking
+                - "solves", or satisfies, the conditions placed on an output by a locking script and allows the output to be spent.
     - **Templates:**  (types are defined by different scripts)
         - Pay-to-Public-Key-Hash script:
             - Used to pay a user
