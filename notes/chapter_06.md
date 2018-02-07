@@ -128,7 +128,8 @@
                 -  
                 
     - **Templates:**  (types are defined by different scripts)
-        - Pay-to-Public-Key-Hash script:
+        - Pay-to-Public-Key-Hash script
+            - combo of scriptSig & scriptPubKey
             - Used to pay a user
         
 
