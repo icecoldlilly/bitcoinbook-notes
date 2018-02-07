@@ -94,11 +94,14 @@
             - No state before / after execution
                 - Execute same way on any system &rightarrow; increases predictability
                     - Valid transaction is valid for FOR everyone
-        - 
-- Transaction (Locking) scripts
+- Transaction scripts
     - When transaction is validated, the unlocking script in each input is executed alongside the corrseponding locking script to see if it satisfies the spending condition.
     - Express simple conditions for spending
-    - **Types:**  (types are defined by different scripts)
+    - **Construction:** (Lock + Unlock)
+        - relies on two types of scripts to validate transactions
+            - Locking
+            - Unlocking
+    - **Templates:**  (types are defined by different scripts)
         - Pay-to-Public-Key-Hash script:
             - Used to pay a user
         
