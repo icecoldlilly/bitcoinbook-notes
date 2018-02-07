@@ -106,7 +106,6 @@
                 - also called *"witness script"* or *"cryptographic puzzle"*
             - Unlocking
                 - "solves", or satisfies, the conditions placed on an output by a locking script and allows the output to be spent.
-                    - 
     - **Templates:**  (types are defined by different scripts)
         - Pay-to-Public-Key-Hash script:
             - Used to pay a user
