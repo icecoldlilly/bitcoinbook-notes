@@ -130,7 +130,9 @@
     - **Templates:**  (types are defined by different scripts)
         - Pay-to-Public-Key-Hash script
             - combo of scriptSig & scriptPubKey
-            - Used to pay a user
+            - Used to pay a graphical representation:
+                - ![scriptSig + scriptPubKey](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0603.png)
+                - 
         
 
 
