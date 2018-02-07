@@ -96,16 +96,37 @@
                     - Valid transaction is valid for FOR everyone
 - Transaction scripts
     - When transaction is validated, the unlocking script in each input is executed alongside the corrseponding locking script to see if it satisfies the spending condition.
-    - Express simple conditions for spending
+    - Express conditions for spending
     - **Construction:** (Lock + Unlock)
         - relies on two types of scripts to validate transactions
-            - Locking
+            - Locking script
                 - spending condition placed on an output
                     - it specifies the conditions that must be met to spend the output in the future
-                    - called `scriptPubKey` &rightarrow; contains public key or bitcoin address
+                - called `scriptPubKey` &rightarrow; contains public key or bitcoin address
                 - also called *"witness script"* or *"cryptographic puzzle"*
-            - Unlocking
+            - Unlocking script
                 - "solves", or satisfies, the conditions placed on an output by a locking script and allows the output to be spent.
+                    - part of every transaction input
+                    - **Common scheme:**
+                        - digital signature produced by the user's wallet from his or her own private key
+                -  called `scriptSig` &rightarrow; contains digital signature
+                -  also called `witness` (❓ How's called same name as locking script ❓)
+    -  **How does it work?**
+        -  validation software will copy *unlocking script*
+        -  refer to a previously existing UTXO
+        -  retrieve UTXO referenced by input
+        -  copy the *locking script* from that UTXO
+        -  execute both *unlocking & locking scripts*
+        -  input validated &rightarrow; unlocking script satisfies locking script
+            -  if valid &rightarrow; allow spending
+    -  **Notes:**
+        -  UTXO is perm. recorded in the blockchain
+            -  invariable (immutable)
+            -  is unaffected by failed attempts to spend it by reference in a new transaction
+            -  only valid transaction (satisfies conds. of output results in the output) is considered spent
+                -  meaning &rightarrow; removed from the set of the unspent transaction outputs (UTXO set)
+                -  
+                
     - **Templates:**  (types are defined by different scripts)
         - Pay-to-Public-Key-Hash script:
             - Used to pay a user
