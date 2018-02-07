@@ -125,18 +125,11 @@
             -  is unaffected by failed attempts to spend it by reference in a new transaction
             -  only valid transaction (satisfies conds. of output results in the output) is considered spent
                 -  meaning &rightarrow; removed from the set of the unspent transaction outputs (UTXO set)
-                -  
-                
+
     - **Templates:**  (types are defined by different scripts)
         - scriptSig & scriptPubKey
             - combo of scriptSig & scriptPubKey
             - graphical representation:
                 - ![scriptSig + scriptPubKey](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0603.png)
         - Pay-to-Public-Key-Hash script
-            
             - Used to pay a user
-                
-                - 
-        
-
-
