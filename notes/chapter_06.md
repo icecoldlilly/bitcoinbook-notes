@@ -166,4 +166,5 @@
                     2. digital signatures created by the private key
                 - Format: 
                     - `<Receiver Sig> <Receiver Public Key> OP_DUP OP_HASH160 <Receiver Sig> OP_EQUALVERIFY OP_CHECKSIG`
-                - ![P2PKH example](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0605.png)
+                - ![P2PKH example pt.1.](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0605.png)
+                - ![P2PKH example pt.2.](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0606.png)
