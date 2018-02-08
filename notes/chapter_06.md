@@ -131,5 +131,31 @@
             - combo of scriptSig & scriptPubKey
             - graphical representation:
                 - ![scriptSig + scriptPubKey](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0603.png)
-        - Pay-to-Public-Key-Hash script
+            - **Construction:**
+                - script execution stack
+                    - LIFO (Last-In-First-Out) queue
+                        - push (insert)
+                        - pop (emit)
+                    - processing each item from left ot right.
+                    - **Operators** handle the parameters ( pop / push )
+                        - **How do they work?**
+                            - act on parameters
+                            - push result onto stack
+                        - **Example:** OP_ADD
+                            - pop two items from stack
+                            - add them together
+                            - push the resulting sum onto the stack
+                            - Syntax: `2 3 OP_ADD`
+                        - **Conditional operators**
+                            - pops needed items
+                            - evaulates items
+                            - push back result
+                            - Syntax: `var1 var2 OP_EQUAL`
+                    -  https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0604.png 
+                - TXs are valid if the top result on the stack is TRUE
+                - unlocking script & locking script are executed seperately
+                    - evaultes unlocking first
+                    - if the result of executing the locking script with the stack data copied from unlocking script is "TRUE"
+                        - Succeeded in resolving the conditions imposed by the locking script
+        - Pay-to-Public-Key-Hash (P2PKH) script
             - Used to pay a user
