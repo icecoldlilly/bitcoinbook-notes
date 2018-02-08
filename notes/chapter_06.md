@@ -170,3 +170,18 @@
                 - ![P2PKH example pt.2.](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0606.png)
 
 # 6.5 Digital Signatures (ECDSA)
+- Elliptic Curve Digital Signature Algorithm
+- Used for digital signatures based on elliptic curve private / public key pairs
+- Used by OP_CHECKSIG, OP_CHECKSIGVERIFY, OP_CHECKMULTISIG, OP_CHECKMULTISIGVERIFY
+    - Any time you see those in a locking script
+    - The unlocking script must contain an ECDSA signature
+    - Neither the signature nor the input have to belong or be applied by same owner
+        - In addition, each transaction input and any signature it may contain is completely independent of each other
+        - Therefore, multiple parties can collaborate to construct transactions and sign only one input each
+            - See "CoinJoin" &rightarrow; creates multi-party transactions for privacy
+- **Purposes:**
+    1. Proves that the owner of the private key, has authorized the spending of those funds.
+    2. Holds the proof of authorization as undeniable
+    3. The signature proves that the transaction is immutable after being signed
+**How do ECDSAs present proof of ownership, without revealing the private key?**
+- Modi
