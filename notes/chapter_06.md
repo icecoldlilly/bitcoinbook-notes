@@ -151,7 +151,7 @@
                             - evaulates items
                             - push back result
                             - Syntax: `var1 var2 OP_EQUAL`
-                    -  https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0604.png 
+                    -  ![Execution stack example](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0604.png)
                 - TXs are valid if the top result on the stack is TRUE
                 - unlocking script & locking script are executed seperately
                     - evaultes unlocking first
@@ -159,3 +159,11 @@
                         - Succeeded in resolving the conditions imposed by the locking script
         - Pay-to-Public-Key-Hash (P2PKH) script
             - Used to pay a user
+            - Vast majority of payments on the network
+            - Locking script that locks the output to a public key hash ( bitcoin address )
+                - Output locked by a P2PKH script can be unlocked by presenting:
+                    1. public key
+                    2. digital signatures created by the private key
+                - Format: 
+                    - `<Receiver Sig> <Receiver Public Key> OP_DUP OP_HASH160 <Receiver Sig> OP_EQUALVERIFY OP_CHECKSIG`
+                - ![P2PKH example](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0605.png)
