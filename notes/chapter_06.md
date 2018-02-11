@@ -183,5 +183,27 @@
     1. Proves that the owner of the private key, has authorized the spending of those funds.
     2. Holds the proof of authorization as undeniable
     3. The signature proves that the transaction is immutable after being signed
-**How do ECDSAs present proof of ownership, without revealing the private key?**
-- Modi
+- **How do digital signatures work?** In two parts:
+    1. An algorithm for creating a signature, using a private key (the signing key), to sign a message (the transaction)
+        - **What's needed?**
+            - dA is the signing private key
+            - m is the transaction
+            - F_hash is the hashing function
+            - F_sig is the signing algorithm
+            - Sig= (R, S) is the resulting signature
+                - Where R and S are serialized into a byte-stream using an ISO encoding scheme called DER
+        - **What's DER?**
+            - Destinguished Encoding Rules used for *serlization of signatures*
+            - Consists of nine elements:
+                - 0x30 - start of DER
+                - 0x45 - length of sequence (69 bytes)
+                - 0x02 - an integer value follows
+                - 0x21 - the length of the integer (33 bytes)
+                - R value in hex
+                - 0x02 - another integer follows
+                - 0x20 - the length of the integer (32 bytes)
+                - S value in hex
+                - A suffix (0x01) indicating the type of hash used (SIGHASH_ALL)
+    2. An algorithm that allows anyone to verify the signature given the message and pub. key (without priv. key)
+        - **How do ECDSAs present proof of ownership, without revealing the private key?**
+            - By using a signature made out of serialized byte-streams of **R & S** according to **DER**
