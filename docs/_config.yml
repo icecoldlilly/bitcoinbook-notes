@@ -22,7 +22,7 @@ baseurl: "/bitcoinbook-notes" # the subpath of your site, e.g. /blog
 url: "hilalh.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: hhgotit
 github_username:  hilalh
-repourl: 'http://github.com/hilalh/bitcoinbook-notes'
+repourl: 'https://github.com/hilalh/bitcoinbook-notes/tree/master'
 
 # Build settings
 markdown: kramdown
