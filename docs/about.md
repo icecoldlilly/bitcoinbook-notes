@@ -4,15 +4,37 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+# Bitcoin Book Notes
+This repository contains personal notes and code snippets I have been aggrigating while reading ["The Bitcoin Book"](http://github.com/bitcoinbook/bitcoinbook)
+### Compiling
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+In order to obtain the latest copy of the book,
+Please make sure you have the following installed:
 
+#### macOS
+```
+brew install git
+brew install asciidoc
+```
+#### Linux
+```
+apt-get / yum install git
+apt-get / yum install asciidoc
+```
 
-[jekyll-organization]: https://github.com/jekyll
+Then please use the following snippet:
+```
+git clone https://github.com/bitcoinbook/bitcoinbook
+git checkout 'develop'
+a2x -f epub --no-xmllint ./book.asciidoc
+```
+### Notes
+
+I have extracted the notes from iBooks using [Klib](<http://klib.me>), feel free to use the same tool.
+### Code
+
+You can check out the code for this repo at [/code](<{{ site.repourl }}/code>)
+
+Here are some more [notes](<{{ site.repourl }}/code/README.md>) in regards to the code snippets

@@ -15,13 +15,14 @@
 # in the templates via {{ site.myvariable }}.
 title: Notes for "The Bitcoin Book"
 email: hilalh@noreply.github.com
-description: This is the notes for "The Bitcoin Book" please look at the README.md file.
+description: This is a set of notes for "The Bitcoin Book" please look at the README.md file for more info.
   #  >- # this means to ignore newlines until "baseurl:"
   
 baseurl: "/bitcoinbook-notes" # the subpath of your site, e.g. /blog
 url: "hilalh.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: hhgotit
 github_username:  hilalh
+repourl: 'http://github.com/hilalh/bitcoinbook-notes'
 
 # Build settings
 markdown: kramdown
