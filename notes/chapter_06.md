@@ -236,3 +236,22 @@
                         - where Qa is the public key of the transaction conductor (Alice for example)
             - Don't understand? That's fine me neither 😅
                 - Try [this](<http://bit.ly/2r0HhGB>)
+## 6.6 Bitcoin Addresses, Balances, and Other Abstractions
+- When looking at transaction structure, we understand that behind the scenes, pay scripts (with lock and unlock functions) replace the concept of bitcoin addresses and balances. Perhaps, we could say that these concepts are completely absent from the system except in th users' wallets.
+
+- **"So what's the information displayed in the blockchain explorer?"**
+    - Information retrieved from the previous transaction UTXOs and their locking scripts, to produce balances, and, recepients
+    - Then, the extracted public key hash which is encoded to Base58Check, to produce the public key
+- **How are balances produced?**
+    - **Total received**
+        - Decode the Base58Check encoding of the bitcoin address to receive the 160-bit Pub. Key hash
+        - Search through the DB of tx's looking for outputs with P2PKH locking scripts that contain the Pub Key hash
+        - We calculate the total balance by summing up the value of all such transactions and values.
+    - **Current balances**
+        - From the UTXO (unspent txs output) set, we sum up the value of all unspent outputs referencing the questioned Pub. Key hash
+- **How easy it is to do so?**
+    - Have to index and search through dozens, hundreds, or even hundreds of thousands of TXs
+    - This is done by consturcting mnay higher-level abstractions classes that search, inspect, and, manipulate many different transactions,
+- **Why are we doing so?**
+    - To provide a simplistic view of bitcoin transactions, that resembles bank checks from onse sener to one recipient
+- Some transactions are not deocded and can be found at the following [link](<https://blockchain.info/strange-transactions>)
