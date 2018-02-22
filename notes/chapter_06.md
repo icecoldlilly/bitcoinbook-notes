@@ -169,7 +169,7 @@
                 - ![P2PKH example pt.1.](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0605.png)
                 - ![P2PKH example pt.2.](https://github.com/bitcoinbook/bitcoinbook/blob/develop/images/mbc2_0606.png)
 
-# 6.5 Digital Signatures (ECDSA)
+## 6.5 Digital Signatures (ECDSA)
 - Elliptic Curve Digital Signature Algorithm
 - Used for digital signatures based on elliptic curve private / public key pairs
 - Used by OP_CHECKSIG, OP_CHECKSIGVERIFY, OP_CHECKMULTISIG, OP_CHECKMULTISIGVERIFY
@@ -199,11 +199,40 @@
                 - 0x45 - length of sequence (69 bytes)
                 - 0x02 - an integer value follows
                 - 0x21 - the length of the integer (33 bytes)
-                - R value in hex
+                - **R value in hex**
                 - 0x02 - another integer follows
                 - 0x20 - the length of the integer (32 bytes)
-                - S value in hex
+                - **S value in hex**
                 - A suffix (0x01) indicating the type of hash used (SIGHASH_ALL)
+            - Important parts are the R, and S values
     2. An algorithm that allows anyone to verify the signature given the message and pub. key (without priv. key)
         - **How do ECDSAs present proof of ownership, without revealing the private key?**
-            - By using a signature made out of serialized byte-streams of **R & S** according to **DER**
+            - To do so we need:
+                - A signature made out of serialized byte-streams of **R & S** according to **DER**
+                - Serialized transaction
+                - The public key cirresponding to the private key, used to to create the signature
+            - Only the owner of the priv. key can provide all of these
+            - Algo. returns TRUE if the signature is valid for this message and public key
+        - **What is SIGHASH?**
+            - Digital signatures applied to messages, which imply commitment by the signer to specific transaction data (inputs, outputs and other tx fields - can be partial or all)
+                - **We can know which part of the transaction's data is included in the hash using a SIGHASH flag.**
+                    - Single byte, every signature has it
+                    - Types: ALL, NONE, SINGLE
+                    - Use: multiple participants collaborating outside the bitcoin network and updating a partially signed transaction
+                    - Can be combined with SIGHASH_ANYONECANPAY to create different payment scenarios with SIGHASH byte, using bitwise 'OR'
+        - **How do we perform ECDSA Math?**
+            - The signature algorithm generates temporary private public key pair
+                - Used by F_sig, in calculation of R and S values
+                - `k` is a random number used as following: `P = k*G` to generate temporary P
+                - `P` is the temporary public key, and `G` is the elliptic curve generator constant point
+                - `S = (k^(-1)) * ( Hash(m) + dA * R ) mod p`
+                    - `k` is temporary private key
+                    - `R` is the x coord of the temp. public key
+                    - `dA` is the signing private key
+                    - `m` is the transaction data
+                    - `p` is the prime order of the elliptic curve
+                - Verification is inverse
+                    - P = (S^(-1)) * Hash(m) * G + (S^(-1)) * R * Qa
+                        - where Qa is the public key of the transaction conductor (Alice for example)
+            - Don't understand? That's fine me neither 😅
+                - Try [this](<http://bit.ly/2r0HhGB>)
