@@ -1,4 +1,18 @@
-# Chapter 02
+# Chapter 02 - How bitcoin works?
+
+- Unlike traditional banking, bitcoin is based on decentralized trust.
+
+## 2.1 Trnasactions, blocks, and mining on the network
+- We will start by talking about transactions, blocks, and mining.
+
+## 2.2 Bitcoin transactions
+- **What's a transaction in the network?**
+    -  In simple terms, a transaction tells the network that the owner of some bitcoin value has authorized the transfer of that value to another owner.
+    -  Like lines in double-entry book-keeping ledger.
+    -  **What does each transaction line include?**
+        -  Each line include one or more "inputs" (debits)
+        -  Each line include one or more "outputs" (credits)
+        -  Proof of ownership for each amount of bitcoin
 - Importantly, the change address does not have to be the same address as that of the input and for privacy reasons is often a new address from the owner’s wallet.
 
 - inputs, like currency notes, cannot be divided
