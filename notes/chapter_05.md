@@ -118,16 +118,19 @@
 ## BIP 39
 ### Mnemoic sequences
 
+_What's mnemonic code words?_
 - Mnemonic code words are word sequences that represent (encode) a random number used as a seed to derive a deterministic wallet.
-
+_How do we use these words?_
 - That sequence of words is the wallet backup and can be used to recover and re-create all the keys in the same or any compatible wallet application.
 
+_Can we choose the words?_
 - Mnemonic words are often confused with "brainwallets."
 
 - The primary difference is that a brainwallet consists of words chosen by the user, whereas mnemonic words are created randomly by the wallet and presented to the user.
 
 - mnemonic words much more secure, because humans are very poor sources of randomness.
 
+_Where mnemonic codes got introduced?_
 - Mnemonic codes are defined in BIP-39
 
 - BIP-39 was proposed by the company behind the Trezor hardware wallet and is incompatible with Electrum’s implementation
@@ -137,32 +140,22 @@
 - BIP-39 defines the creation of a mnemonic code and seed, which we describe here in nine steps.
 
 - Mnemonic words are generated automatically by the wallet using the standardized process defined in BIP-39
-
+_Technical details:_
 - The mnemonic words represent entropy with a length of 128 to 256 bits.
 
 - used to derive a longer (512-bit) seed
 
 - use of the key-stretching function PBKDF2.
 
-- deterministic wallet and derive its keys.
-
 - two parameters: the mnemonic and a salt.
-
-- salt
 
 - make it difficult to build a lookup table enabling a brute-force attack
 
-- salt has another purpose
+- salt has another purpose: additional security factor protecting the seed
 
-- additional security factor protecting the seed
+- allows the introduction of a passphrase: salt is composed of the string constant "mnemonic" concatenated with an optional user-supplied passphrase string
 
-- allows the introduction of a passphrase
-
-- PBKDF2 key-stretching function is the
-
-- mnemonic
-
-- salt is composed of the string constant "mnemonic" concatenated with an optional user-supplied passphrase string
+_How does the function work?_
 
 - PBKDF2 stretches the mnemonic and salt parameters using 2048 rounds of hashing with the HMAC-SHA512 algorithm,
 
