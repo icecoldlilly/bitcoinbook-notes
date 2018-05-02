@@ -35,7 +35,7 @@
 
 - deterministic wallet
 
-- all the keys are derived from a single master ke
+- all the keys are derived from a single master key
 
 - seed
 
@@ -45,11 +45,9 @@
 
 - key derivation methods
 
-- ost commonly used derivation
+- most commonly used derivation
 
-- tree-like structure
-
-- hierarchical deterministic
+- tree-like structure: hierarchical deterministic
 
 - HD wallet.
 
